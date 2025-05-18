@@ -1,1 +1,31 @@
-venv
+# Python bytecode and cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+venv/
+
+# SQLite database file (optional – include only if you want to ignore local DB)
+*.sqlite3
+*.db
+
+# Flask-related
+instance/
+*.log
+
+# OS and editor specific
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Test cache
+.pytest_cache/
+.coverage
+
+# Compiled files
+*.egg-info/
+dist/
+build/
