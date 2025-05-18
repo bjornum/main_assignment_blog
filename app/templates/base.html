@@ -10,6 +10,15 @@
   </head>
   <body>
     <header><h1>My Blog</h1></header>
+    {% with messages = get_flashed_messages(with_categories=true) %} {% if
+    messages %}
+    <ul class="flashes">
+      {% for category, message in messages %}
+      <li class="{{ category }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+    {% endif %} {% endwith %}
+
     <main>{% block content %}{% endblock %}</main>
   </body>
 </html>

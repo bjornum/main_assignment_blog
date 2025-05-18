@@ -1,3 +1,14 @@
 article {
   margin-bottom: 2rem;
 }
+.flashes {
+  list-style: none;
+  padding: 1rem;
+}
+
+.flashes li.success {
+  color: green;
+}
+.flashes li.error {
+  color: red;
+}
