@@ -111,3 +111,49 @@ def create_post():
             return redirect(url_for('main.post_detail', post_id=post_id))
 
     return render_template('create_post.html')
+
+# Edit a post
+@bp.route('/edit/<int:post_id>', methods=['GET', 'POST'])
+def edit_post(post_id):
+    db = get_db()
+
+    # Get post data
+    post = db.execute("""
+        SELECT p.id, p.title, p.content,
+               GROUP_CONCAT(t.name) AS tags
+        FROM posts p
+        LEFT JOIN post_tags pt ON p.id = pt.post_id
+        LEFT JOIN tags t ON pt.tag_id = t.id
+        WHERE p.id = ?
+        GROUP BY p.id
+    """, (post_id,)).fetchone()
+
+    if not post:
+        return "Post not found", 404
+
+    if request.method == 'POST':
+        title = request.form['title'].strip()
+        content = request.form['content'].strip()
+        tags_input = request.form['tags'].strip()
+
+        if not title or not content:
+            flash("Title and content are required.", "error")
+        else:
+            db.execute(
+                "UPDATE posts SET title = ?, content = ? WHERE id = ?",
+                (title, content, post_id)
+            )
+
+            # Clear old tags and re-insert
+            db.execute("DELETE FROM post_tags WHERE post_id = ?", (post_id,))
+            tag_names = [t.strip() for t in tags_input.split(',') if t.strip()]
+            for name in tag_names:
+                db.execute("INSERT OR IGNORE INTO tags (name) VALUES (?)", (name,))
+                tag_id = db.execute("SELECT id FROM tags WHERE name = ?", (name,)).fetchone()['id']
+                db.execute("INSERT INTO post_tags (post_id, tag_id) VALUES (?, ?)", (post_id, tag_id))
+
+            db.commit()
+            flash("Post updated!", "success")
+            return redirect(url_for('main.post_detail', post_id=post_id))
+
+    return render_template('edit_post.html', post=post)

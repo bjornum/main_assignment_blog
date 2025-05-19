@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% block title %}Edit Post{% endblock %} {% block
+content %}
+<h2>Edit Blog Post</h2>
+<form method="post">
+  <label for="title">Title:</label><br />
+  <input
+    type="text"
+    name="title"
+    id="title"
+    value="{{ post['title'] }}"
+  /><br /><br />
+
+  <label for="content">Content:</label><br />
+  <textarea name="content" id="content" rows="6">{{ post['content'] }}</textarea
+  ><br /><br />
+
+  <label for="tags">Tags (comma-separated):</label><br />
+  <input
+    type="text"
+    name="tags"
+    id="tags"
+    value="{{ post['tags'] }}"
+  /><br /><br />
+
+  <button type="submit">Update Post</button>
+</form>
+{% endblock %}
