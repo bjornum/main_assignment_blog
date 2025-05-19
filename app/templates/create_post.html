@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block title %}Create Post{% endblock %} {% block
+content %}
+<h2>Create New Blog Post</h2>
+<a href="{{ url_for('main.home') }}">← Back to all posts</a>
+<hr />
+<form method="post">
+  <label for="title">Title:</label><br />
+  <input type="text" name="title" id="title" /><br /><br />
+
+  <label for="content">Content:</label><br />
+  <textarea name="content" id="content" rows="6"></textarea><br /><br />
+
+  <label for="tags">Tags (comma-separated):</label><br />
+  <input type="text" name="tags" id="tags" /><br /><br />
+
+  <button type="submit">Publish</button>
+</form>
+{% endblock %}

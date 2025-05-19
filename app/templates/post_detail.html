@@ -1,7 +1,10 @@
 {% extends "base.html" %} {% block title %}{{ post['title'] }}{% endblock %} {%
 block content %}
+
+<a href="{{ url_for('main.home') }}">← Back to all posts</a>
 <article>
   <h2>{{ post['title'] }}</h2>
+
   <small>Published: {{ post['pub_date'] }}</small>
   <p>{{ post['content'] }}</p>
 

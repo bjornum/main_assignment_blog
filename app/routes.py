@@ -79,3 +79,35 @@ def tag_page(tag_name):
     """, (tag_name,)).fetchall()
 
     return render_template('tag.html', posts=posts, tag_name=tag_name)
+
+# Create a new post
+@bp.route('/create', methods=['GET', 'POST'])
+def create_post():
+    db = get_db()
+
+    if request.method == 'POST':
+        title = request.form['title'].strip()
+        content = request.form['content'].strip()
+        tags_input = request.form['tags'].strip()
+
+        if not title or not content:
+            flash("Title and content are required.", "error")
+        else:
+            db.execute(
+                "INSERT INTO posts (title, content, pub_date) VALUES (?, ?, DATE('now'))",
+                (title, content)
+            )
+            post_id = db.execute("SELECT last_insert_rowid()").fetchone()[0]
+
+            # Handle tags
+            tag_names = [t.strip() for t in tags_input.split(',') if t.strip()]
+            for name in tag_names:
+                db.execute("INSERT OR IGNORE INTO tags (name) VALUES (?)", (name,))
+                tag_id = db.execute("SELECT id FROM tags WHERE name = ?", (name,)).fetchone()['id']
+                db.execute("INSERT INTO post_tags (post_id, tag_id) VALUES (?, ?)", (post_id, tag_id))
+
+            db.commit()
+            flash("Post created!", "success")
+            return redirect(url_for('main.post_detail', post_id=post_id))
+
+    return render_template('create_post.html')
