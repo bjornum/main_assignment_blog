@@ -157,3 +157,22 @@ def edit_post(post_id):
             return redirect(url_for('main.post_detail', post_id=post_id))
 
     return render_template('edit_post.html', post=post)
+
+# Delete a post
+@bp.route('/delete/<int:post_id>', methods=['POST'])
+def delete_post(post_id):
+    db = get_db()
+
+    # Check if post exists
+    post = db.execute("SELECT id FROM posts WHERE id = ?", (post_id,)).fetchone()
+    if not post:
+        return "Post not found", 404
+
+    # Delete tags and comments first (foreign key cleanup)
+    db.execute("DELETE FROM post_tags WHERE post_id = ?", (post_id,))
+    db.execute("DELETE FROM comments WHERE post_id = ?", (post_id,))
+    db.execute("DELETE FROM posts WHERE id = ?", (post_id,))
+    db.commit()
+
+    flash("Post deleted.", "success")
+    return redirect(url_for('main.home'))
