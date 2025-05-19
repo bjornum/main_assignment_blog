@@ -20,7 +20,7 @@ def home():
 
     return render_template('home.html', posts=posts)
 
-# full blog post view placeholder
+# full blog post view 
 @bp.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def post_detail(post_id):
     db = get_db()
@@ -63,7 +63,19 @@ def post_detail(post_id):
     return render_template('post_detail.html', post=post, comments=comments)
 
 
-# Tag page placeholder
+# Tag page
 @bp.route('/tags/<string:tag_name>')
 def tag_page(tag_name):
-    return f"Posts tagged with: {tag_name}"
+    db = get_db()
+    posts = db.execute("""
+        SELECT p.id, p.title, p.content, p.pub_date,
+               GROUP_CONCAT(t.name) AS tags
+        FROM posts p
+        JOIN post_tags pt ON p.id = pt.post_id
+        JOIN tags t ON pt.tag_id = t.id
+        WHERE t.name = ?
+        GROUP BY p.id
+        ORDER BY p.pub_date DESC
+    """, (tag_name,)).fetchall()
+
+    return render_template('tag.html', posts=posts, tag_name=tag_name)
