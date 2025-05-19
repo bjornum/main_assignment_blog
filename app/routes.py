@@ -54,7 +54,7 @@ def post_detail(post_id):
             return redirect(url_for('main.post_detail', post_id=post_id))
 
     comments = db.execute("""
-        SELECT title, content, pub_date
+        SELECT id, title, content, pub_date
         FROM comments
         WHERE post_id = ?
         ORDER BY pub_date DESC
@@ -176,3 +176,18 @@ def delete_post(post_id):
 
     flash("Post deleted.", "success")
     return redirect(url_for('main.home'))
+
+# Delete a comment
+@bp.route('/delete-comment/<int:comment_id>', methods=['POST'])
+def delete_comment(comment_id):
+    db = get_db()
+
+    comment = db.execute("SELECT post_id FROM comments WHERE id = ?", (comment_id,)).fetchone()
+    if not comment:
+        return "Comment not found", 404
+
+    db.execute("DELETE FROM comments WHERE id = ?", (comment_id,))
+    db.commit()
+
+    flash("Comment deleted.", "success")
+    return redirect(url_for('main.post_detail', post_id=comment['post_id']))
