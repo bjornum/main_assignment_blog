@@ -8,17 +8,32 @@ bp = Blueprint('main', __name__)
 @bp.route('/')
 def home():
     db = get_db()
-    posts = db.execute("""
-        SELECT p.id, p.title, p.content, p.pub_date,
-               GROUP_CONCAT(t.name) AS tags
-        FROM posts p
-        LEFT JOIN post_tags pt ON p.id = pt.post_id
-        LEFT JOIN tags t ON pt.tag_id = t.id
-        GROUP BY p.id
-        ORDER BY p.pub_date DESC
-    """).fetchall()
+    search_query = request.args.get('search', '').strip()
 
-    return render_template('home.html', posts=posts)
+    if search_query:
+        posts = db.execute("""
+            SELECT p.id, p.title, p.content, p.pub_date,
+                   GROUP_CONCAT(t.name) AS tags
+            FROM posts p
+            LEFT JOIN post_tags pt ON p.id = pt.post_id
+            LEFT JOIN tags t ON pt.tag_id = t.id
+            WHERE p.title LIKE ? OR p.content LIKE ?
+            GROUP BY p.id
+            ORDER BY p.pub_date DESC
+        """, (f'%{search_query}%', f'%{search_query}%')).fetchall()
+    else:
+        posts = db.execute("""
+            SELECT p.id, p.title, p.content, p.pub_date,
+                   GROUP_CONCAT(t.name) AS tags
+            FROM posts p
+            LEFT JOIN post_tags pt ON p.id = pt.post_id
+            LEFT JOIN tags t ON pt.tag_id = t.id
+            GROUP BY p.id
+            ORDER BY p.pub_date DESC
+        """).fetchall()
+
+    return render_template('home.html', posts=posts, search_query=search_query)
+
 
 # full blog post view 
 @bp.route('/post/<int:post_id>', methods=['GET', 'POST'])
