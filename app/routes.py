@@ -206,3 +206,8 @@ def delete_comment(comment_id):
 
     flash("Comment deleted.", "success")
     return redirect(url_for('main.post_detail', post_id=comment['post_id']))
+
+# 404 error page
+@bp.app_errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404

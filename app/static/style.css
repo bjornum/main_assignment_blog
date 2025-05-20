@@ -40,6 +40,21 @@ article {
   background-color: #d93636;
 }
 
+/* 404 page */
+.title-404 {
+  font-size: 4rem;
+  margin-bottom: 0.5rem;
+}
+
+a {
+  text-decoration: none;
+  color: #007bff;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 /* Search */
 
 .search-wrapper {
