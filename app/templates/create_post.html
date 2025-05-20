@@ -1,8 +1,6 @@
 {% extends "base.html" %} {% block title %}Create Post{% endblock %} {% block
-content %}
+content %} {% if session.role == 'admin' %}
 <h2>Create New Blog Post</h2>
-<a href="{{ url_for('main.home') }}">← Back to all posts</a>
-<hr />
 <form method="post">
   <label for="title">Title:</label><br />
   <input type="text" name="title" id="title" /><br /><br />
@@ -15,4 +13,6 @@ content %}
 
   <button type="submit">Publish</button>
 </form>
-{% endblock %}
+{% else %}
+<p>You do not have permission to access this page.</p>
+{% endif %} {% endblock %}

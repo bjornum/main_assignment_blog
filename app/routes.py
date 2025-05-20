@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
-
+from flask import Blueprint, render_template, request, redirect, url_for, flash, session
+from werkzeug.security import check_password_hash
 from .db import get_db
 
 bp = Blueprint('main', __name__)
@@ -211,3 +211,37 @@ def delete_comment(comment_id):
 @bp.app_errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
+
+# Login
+@bp.route('/login', methods=['GET', 'POST'])
+def login():
+    db = get_db()
+    error = None
+
+    if request.method == 'POST':
+        username = request.form['username'].strip()
+        password = request.form['password']
+
+        user = db.execute("SELECT * FROM users WHERE username = ?", (username,)).fetchone()
+
+        if user is None or not check_password_hash(user['password'], password):
+            error = "Invalid username or password."
+        else:
+            session.clear()
+            session['user_id'] = user['id']
+            session['username'] = user['username']
+            session['role'] = user['role']
+            flash("Logged in successfully!", "success")
+            return redirect(url_for('main.home'))
+
+        flash(error, "error")
+
+    return render_template('login.html')
+
+# Logout
+@bp.route('/logout')
+def logout():
+    session.clear()
+    flash("Logged out.", "success")
+    return redirect(url_for('main.home'))

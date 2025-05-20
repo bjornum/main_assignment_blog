@@ -1,5 +1,5 @@
 {% extends "base.html" %} {% block title %}Edit Post{% endblock %} {% block
-content %}
+content %} {% if session.role == 'admin' %}
 <h2>Edit Blog Post</h2>
 <a href="{{ url_for('main.home') }}">← Back to all posts</a>
 <hr />
@@ -26,4 +26,6 @@ content %}
 
   <button type="submit">Update Post</button>
 </form>
-{% endblock %}
+{% else %}
+<p>You do not have permission to edit this post.</p>
+{% endif %} {% endblock %}

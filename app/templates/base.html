@@ -10,6 +10,14 @@
   </head>
   <body>
     <header><h1>My Blog</h1></header>
+    <div style="text-align: right; padding: 1rem">
+      {% if session.username %} Logged in as
+      <strong>{{ session.username }}</strong> ({{ session.role }}) |
+      <a href="{{ url_for('main.logout') }}">Logout</a>
+      {% else %}
+      <a href="{{ url_for('main.login') }}">Login</a>
+      {% endif %}
+    </div>
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %}
     <ul class="flashes">
