@@ -42,6 +42,11 @@ article {
 
 /* Search */
 
+.search-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
 .search-input-container {
   display: flex;
   justify-content: center;
@@ -49,7 +54,7 @@ article {
 }
 
 .search-input {
-  padding: 8px 12px;
+  padding: 8px 12px 8px 32px; /* Add left space for the icon */
   width: 300px;
   max-width: 100%;
   border: 1px solid #ccc;
@@ -63,4 +68,14 @@ article {
   border-color: #007bff;
   box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
   outline: none;
+}
+
+.search-icon {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1rem;
+  color: #888;
+  pointer-events: none;
 }

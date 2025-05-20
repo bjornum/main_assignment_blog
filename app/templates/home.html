@@ -2,12 +2,15 @@
 %}
 <a href="{{ url_for('main.create_post') }}">+ Create New Post</a>
 <form id="searchForm" class="search-input-container">
-  <input
-    type="text"
-    id="searchInput"
-    placeholder="Search posts..."
-    class="search-input"
-  />
+  <div class="search-wrapper">
+    <span class="search-icon">🔍</span>
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Search posts..."
+      class="search-input"
+    />
+  </div>
 </form>
 
 <h2>All Blog Posts</h2>
