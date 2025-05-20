@@ -2,6 +2,7 @@ DROP TABLE IF EXISTS posts;
 DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS tags;
 DROP TABLE IF EXISTS post_tags;
+DROP TABLE IF EXISTS users;
 
 CREATE TABLE posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -30,4 +31,11 @@ CREATE TABLE post_tags (
     PRIMARY KEY (post_id, tag_id),
     FOREIGN KEY (post_id) REFERENCES posts(id),
     FOREIGN KEY (tag_id) REFERENCES tags(id)
+);
+
+CREATE TABLE users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL UNIQUE,
+    password TEXT NOT NULL,
+    role TEXT NOT NULL DEFAULT 'user'
 );
