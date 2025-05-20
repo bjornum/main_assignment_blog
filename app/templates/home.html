@@ -1,12 +1,25 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
 <a href="{{ url_for('main.create_post') }}">+ Create New Post</a>
-<input
-  type="text"
-  id="searchInput"
-  placeholder="Search posts..."
-  style="margin-bottom: 1rem; width: 100%; padding: 8px"
-/>
+<form
+  id="searchForm"
+  style="margin-bottom: 1.5rem; display: flex; justify-content: center"
+>
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Search posts..."
+    style="
+      padding: 8px 12px;
+      width: 300px;
+      max-width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+      box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
+    "
+  />
+</form>
 
 <h2>All Blog Posts</h2>
 

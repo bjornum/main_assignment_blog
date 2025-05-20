@@ -39,3 +39,26 @@ article {
 .button-danger:hover {
   background-color: #d93636;
 }
+
+#searchForm {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+#searchInput {
+  padding: 8px 12px;
+  width: 300px;
+  max-width: 100%;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+#searchInput:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+  outline: none;
+}
