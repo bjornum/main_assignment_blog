@@ -1,5 +1,13 @@
-{% extends "base.html" %} {% block title %}Create Post{% endblock %} {% block
-content %} {% if session.role == 'admin' %}
+<!-- Inherit layout from the base template (header, nav and so on) -->
+{% extends "base.html" %}
+
+<!-- Sets the page title in the browser tab -->
+{% block title %}Create Post{% endblock %}
+<!-- Main content area -->
+{% block content %}
+
+<!-- Only allow admin users to access this page -->
+{% if session.role == 'admin' %}
 <h2>Create New Blog Post</h2>
 <form method="post">
   <p class="form-note">
@@ -7,17 +15,24 @@ content %} {% if session.role == 'admin' %}
     service based on post data. <br />
     Image selection is random and cannot be changed manually at this time.
   </p>
+
+  <!-- Blog post title field -->
   <label for="title">Title:</label><br />
   <input type="text" name="title" id="title" /><br /><br />
 
+  <!-- Blog post content field -->
   <label for="content">Content:</label><br />
   <textarea name="content" id="content" rows="6"></textarea><br /><br />
 
+  <!-- Tags field (comma-separated input) -->
   <label for="tags">Tags (comma-separated):</label><br />
   <input type="text" name="tags" id="tags" /><br /><br />
 
+  <!-- Submit button -->
   <button type="submit">Publish</button>
 </form>
+
+<!-- Fallback message for unauthorized users -->
 {% else %}
 <p>You do not have permission to access this page.</p>
 {% endif %} {% endblock %}
