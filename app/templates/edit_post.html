@@ -4,6 +4,12 @@ content %} {% if session.role == 'admin' %}
 <a href="{{ url_for('main.home') }}">← Back to all posts</a>
 <hr />
 <form method="post">
+  <p class="form-note">
+    📷 Note: Blog post images are automatically generated from a free image
+    service based on post data. <br />
+    Image selection is random and cannot be changed manually at this time.
+  </p>
+
   <label for="title">Title:</label><br />
   <input
     type="text"

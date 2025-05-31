@@ -2,6 +2,11 @@
 content %} {% if session.role == 'admin' %}
 <h2>Create New Blog Post</h2>
 <form method="post">
+  <p class="form-note">
+    📷 Note: Blog post images are automatically generated from a free image
+    service based on post data. <br />
+    Image selection is random and cannot be changed manually at this time.
+  </p>
   <label for="title">Title:</label><br />
   <input type="text" name="title" id="title" /><br /><br />
 

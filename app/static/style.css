@@ -234,3 +234,9 @@ input[type="submit"]:hover {
 .post-buttons form button:hover {
   background-color: #c0392b;
 }
+
+.form-note {
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: 0.5rem;
+}
