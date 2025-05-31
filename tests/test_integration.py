@@ -5,18 +5,26 @@ import pytest
 from app.db import get_db, init_db
 from flask import Flask
 
-# Setup a temporary Flask app with an isolated SQLite database for testing
+
+# ----------------------------------------
+# Setup: Create a temporary Flask app and isolated SQLite database for integration testing
+# ----------------------------------------
+
 @pytest.fixture
 def test_app():
-    # Create a temporary file to use as the database
+    # Create a temporary file to act as a separate database for tests
     db_fd, db_path = tempfile.mkstemp()
 
+    # Create a Flask app instance with the test database
     app = Flask(__name__)
+    # Use the temp database file
     app.config['DATABASE'] = db_path
+    # Enable testing mode (disables error catching)
     app.config['TESTING'] = True
+    # Set a dummy secret key for sessions
     app.secret_key = "test"
 
-    # Initialize the database schema
+    # Initialize the schema in the test database
     with app.app_context():
         init_db()
 
@@ -27,9 +35,14 @@ def test_app():
     with app.app_context():
         get_db().close()
 
+    # Close the file descriptor
     os.close(db_fd)
 
-# Integration Test: Insert a post and retrieve it from the DB
+
+# ----------------------------------------
+# Integration Test: Insert and retrieve a post in the database
+# ----------------------------------------
+
 def test_insert_and_fetch_post(test_app):
     with test_app.app_context():
         db = get_db()
