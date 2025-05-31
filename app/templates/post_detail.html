@@ -3,6 +3,11 @@ block content %}
 
 <a href="{{ url_for('main.home') }}">← Back to all posts</a>
 <article>
+  <img
+    src="https://picsum.photos/id/{{ 100 + post['id'] }}/1200/400"
+    alt="Post Image"
+    style="width: 100%; height: auto; border-radius: 8px; margin-bottom: 1rem"
+  />
   <h2>{{ post['title'] }}</h2>
 
   <small>Published: {{ post['pub_date'] }}</small>

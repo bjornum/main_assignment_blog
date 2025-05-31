@@ -1,3 +1,50 @@
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  text-align: center;
+  padding: 1rem;
+  background-color: #007bff;
+  color: white;
+  border-bottom: 4px solid #0056b3;
+}
+
+header a {
+  color: white;
+  margin: 0 0.5rem;
+}
+
+header a:hover {
+  text-decoration: underline;
+}
+
+header,
+main {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+h1,
+h2,
+h3 {
+  color: #222;
+}
+
+a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
 article {
   margin-bottom: 2rem;
 }
@@ -40,19 +87,25 @@ article {
   background-color: #d93636;
 }
 
+button,
+input[type="submit"] {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+button:hover,
+input[type="submit"]:hover {
+  background-color: #0056b3;
+}
+
 /* 404 page */
 .title-404 {
   font-size: 4rem;
   margin-bottom: 0.5rem;
-}
-
-a {
-  text-decoration: none;
-  color: #007bff;
-}
-
-a:hover {
-  text-decoration: underline;
 }
 
 /* Search */
@@ -93,4 +146,25 @@ a:hover {
   font-size: 1rem;
   color: #888;
   pointer-events: none;
+}
+
+.post {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* Making the images from picsum more scalable */
+.post img {
+  width: 100%;
+  max-height: 250px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+form {
+  margin-top: 1rem;
 }
