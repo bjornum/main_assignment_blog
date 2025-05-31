@@ -47,7 +47,7 @@ def test_insert_and_fetch_post(test_app):
     with test_app.app_context():
         db = get_db()
 
-        # Insert a test blog post
+        # Insert a test blog post into the database
         db.execute("INSERT INTO posts (title, content, pub_date) VALUES (?, ?, DATE('now'))",
                    ("Test Post", "This is a test",))
         db.commit()
