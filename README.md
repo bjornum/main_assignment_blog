@@ -57,3 +57,82 @@ venv\Scripts\activate
 ```
 source venv/bin/activate
 ```
+
+### 3. Install the dependencies
+
+```
+pip install -r requirements.txt
+```
+
+### 4. Initialize the database
+
+```
+flask --app run.py init-db
+```
+
+### 5. Seed the database with data.
+
+This will create the content and admin user on the application
+
+#### Seed the blog content
+
+```
+python seed.py
+```
+
+#### Seed the Admin user
+
+```
+python seed_users.py
+```
+
+### 6. Run the Application
+
+#### Ideal way of running it
+
+```
+flask --app run.py run
+```
+
+#### Running it directly from the python file
+
+```
+python run.py
+```
+
+### 7. Run the tests
+
+#### Easiest way to run it with a script i made
+
+```
+.\run-tests.ps1
+```
+
+#### Can also run it like this
+
+```
+$env:PYTHONPATH = "."
+```
+
+Then the command below.
+
+```
+pytest
+```
+
+## Admin User
+
+Admin can create, edit and delete posts and comments
+
+- Username: admin
+- Password: admin123
+
+Normal users will only be able to create post, and add comments.
+
+## Future Improvements
+
+- Implement an image upload for posts.
+- Register and propper authentiation system.
+- Pagination for posts
+- Deploy to an cloud platform.
+- Improve the visuals and UX/UI of it.
