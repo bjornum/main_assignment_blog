@@ -3,6 +3,9 @@
   <head>
     <meta charset="UTF-8" />
     <title>{% block title %}My Blog{% endblock %}</title>
+    <!-- The page title is defined in each child template -->
+
+    <!-- Link to the static CSS file -->
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='style.css') }}"
@@ -11,9 +14,13 @@
   <body>
     <header>
       <h1>My Blog</h1>
+      <!-- Navigation links -->
       <nav>
         <a href="{{ url_for('main.home') }}">Home</a> | {% if session.username
-        %} <a href="{{ url_for('main.logout') }}">Logout</a> | {% else %}
+        %}
+        <!-- If the user is logged in, show logout -->
+        <a href="{{ url_for('main.logout') }}">Logout</a> | {% else %}
+        <!-- Otherwise, show login -->
         <a href="{{ url_for('main.login') }}">Login</a> | {% endif %}
         <a href="{{ url_for('main.create_post') }}">+ Create New Post</a>
       </nav>
@@ -26,6 +33,7 @@
       {% endif %}
     </header>
 
+    <!-- Flash messages (success, error, etc.) displayed dynamically -->
     {% with messages = get_flashed_messages(with_categories=true) %} {% if
     messages %}
     <ul class="flashes">
@@ -35,6 +43,7 @@
     </ul>
     {% endif %} {% endwith %}
 
+    <!-- Main content area, replaced by each child template's content block -->
     <main>{% block content %}{% endblock %}</main>
   </body>
 </html>
