@@ -1,6 +1,13 @@
 # Personal Blog Application
 
-This is a _Flask based_ personal blog application, built as an exam of an backend course - PRO1002.
+![Flask](https://img.shields.io/badge/Flask-2.3+-blue)
+![SQLite](https://img.shields.io/badge/SQLite-3.x-lightgrey)
+![Jinja2](https://img.shields.io/badge/Jinja2-templates-yellow)
+![Python](https://img.shields.io/badge/Python-3.12-blue)
+![Auth](https://img.shields.io/badge/Auth-Session--Based-orange)
+![Tests](https://img.shields.io/badge/Tests-Integration%20%7C%20End--to--End-brightgreen)
+
+This is a Flask based personal blog application, built as an exam of an backend course - PRO1002.
 Its main focus are on database integration (SQLite), templating with Jinja2, user authentication and basic web app functionality.
 
 The user can:
