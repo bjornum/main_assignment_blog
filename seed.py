@@ -2,7 +2,11 @@ import sqlite3
 from datetime import datetime, timedelta
 import random
 
-# Sample data: Titles, descriptions, and natural content
+# ----------------------------------------
+# Sample data: Blog posts and tags
+# ----------------------------------------
+
+# Each post has a title, description and content.
 sample_posts = [
     {
         "title": "Exploring the Unknown",
@@ -56,28 +60,50 @@ sample_posts = [
     },
 ]
 
+# A list of predefined tags for the blog posts.
 sample_tags = ["flask", "python", "backend", "jinja2", "sqlite", "blog", "project", "debugging"]
 
-# Connect to the database
+# ----------------------------------------
+# Database connection
+# ----------------------------------------
+
+# Connect to the SQLite database file (blog.db)
 conn = sqlite3.connect("blog.db")
 cursor = conn.cursor()
 
-# Clear old data
+
+# ----------------------------------------
+# Clear existing data (to avoid duplicates)
+# ----------------------------------------
+
+# Delete all existing records from tables
 cursor.execute("DELETE FROM post_tags")
 cursor.execute("DELETE FROM comments")
 cursor.execute("DELETE FROM tags")
 cursor.execute("DELETE FROM posts")
 
-# Insert tags
+
+# ----------------------------------------
+# Insert tags into the database
+# ----------------------------------------
+
+# Insert each tag into the tags table and store its ID
 tag_ids = {}
 for tag in sample_tags:
     cursor.execute("INSERT INTO tags (name) VALUES (?)", (tag,))
     tag_ids[tag] = cursor.lastrowid
 
+
+# ----------------------------------------
+# Insert posts into the database
+# ----------------------------------------
+
 # Insert posts
 for i, post in enumerate(sample_posts):
+    # Generate a unique publication date for each post, spaced out by days
     pub_date = (datetime.now() - timedelta(days=i)).strftime('%Y-%m-%d')
 
+    # Insert the post into the posts table
     cursor.execute(
         "INSERT INTO posts (title, description, content, pub_date) VALUES (?, ?, ?, ?)",
         (post["title"], post["description"], post["content"], pub_date)
@@ -88,6 +114,11 @@ for i, post in enumerate(sample_posts):
     for tag in random.sample(sample_tags, k=3):
         cursor.execute("INSERT INTO post_tags (post_id, tag_id) VALUES (?, ?)",
                        (post_id, tag_ids[tag]))
+
+
+# ----------------------------------------
+# Finalize changes and close connection
+# ----------------------------------------
 
 conn.commit()
 conn.close()
