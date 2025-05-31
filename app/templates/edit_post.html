@@ -1,6 +1,16 @@
-{% extends "base.html" %} {% block title %}Edit Post{% endblock %} {% block
-content %} {% if session.role == 'admin' %}
+<!-- Inherit the shared layout from base.html -->
+{% extends "base.html" %}
+<!-- Set the page title for the browser tab -->
+{% block title %}Edit Post{% endblock %}
+
+<!-- Main content block for editing a post -->
+{% block content %}
+
+<!-- Only admins are allowed to access this page -->
+{% if session.role == 'admin' %}
 <h2>Edit Blog Post</h2>
+
+<!-- Navigation back to homepage -->
 <a href="{{ url_for('main.home') }}">← Back to all posts</a>
 <hr />
 <form method="post">
@@ -10,6 +20,7 @@ content %} {% if session.role == 'admin' %}
     Image selection is random and cannot be changed manually at this time.
   </p>
 
+  <!-- Blog post title field (pre-filled with existing post data) -->
   <label for="title">Title:</label><br />
   <input
     type="text"
@@ -18,10 +29,12 @@ content %} {% if session.role == 'admin' %}
     value="{{ post['title'] }}"
   /><br /><br />
 
+  <!-- Blog post content field (pre-filled) -->
   <label for="content">Content:</label><br />
   <textarea name="content" id="content" rows="6">{{ post['content'] }}</textarea
   ><br /><br />
 
+  <!-- Tags field (pre-filled with existing tags) -->
   <label for="tags">Tags (comma-separated):</label><br />
   <input
     type="text"
@@ -30,8 +43,11 @@ content %} {% if session.role == 'admin' %}
     value="{{ post['tags'] }}"
   /><br /><br />
 
+  <!-- Submit button -->
   <button type="submit">Update Post</button>
 </form>
+
+<!-- Message for unauthorized users -->
 {% else %}
 <p>You do not have permission to edit this post.</p>
 {% endif %} {% endblock %}
