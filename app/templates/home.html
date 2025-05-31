@@ -1,7 +1,16 @@
-{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
-%}
+<!-- Inherit the shared layout and styles from base.html -->
+{% extends "base.html" %}
+
+<!-- Set the page title shown in the browser tab -->
+{% block title %}Home{% endblock %}
+
+<!-- Main page content: blog listing and search -->
+{% block content %}
+
+<!-- Search bar container with input and icon -->
 <form id="searchForm" class="search-input-container">
   <div class="search-wrapper">
+    <!-- Search icon inside input field -->
     <span class="search-icon">🔍</span>
     <input
       type="text"
@@ -12,24 +21,40 @@
   </div>
 </form>
 
+<!-- Blog section heading -->
 <h2>All Blog Posts</h2>
 
+<!-- Loop through each post in the posts list -->
 {% for post in posts %}
 <article class="post" data-title="{{ post['title'] | lower }}">
+  <!-- Random image based on post ID (consistent per post) -->
   <img
     src="https://picsum.photos/id/{{ 10 + post['id'] }}/800/300"
     alt="Post Image"
   />
+
+  <!-- Post title -->
   <h3>{{ post['title'] }}</h3>
+
+  <!-- Publish date -->
   <small>Published: {{ post['pub_date'] }}</small>
+
+  <!-- Short preview of post content -->
   <p>{{ post['content'][:150] }}...</p>
+
+  <!-- Link to the full blog post page -->
   <a href="{{ url_for('main.post_detail', post_id=post['id']) }}">Read more</a>
 </article>
+
+<!-- Fallback if no posts are found -->
 {% else %}
 <p>No blog posts yet.</p>
 {% endfor %}
 
 <script>
+  // Simple client-side filtering of posts using JavaScript
+  // This enhances UX by avoiding full-page reloads for search
+  // Filters posts based on their titles
   const searchInput = document.getElementById("searchInput");
   const posts = document.querySelectorAll(".post");
 
