@@ -2,14 +2,22 @@ from flask import Blueprint, render_template, request, redirect, url_for, flash,
 from werkzeug.security import check_password_hash
 from .db import get_db
 
+# ----------------------------------------
+# Blueprint setup for the main routes
+# ----------------------------------------
 bp = Blueprint('main', __name__)
 
-# Root page
+
+# ----------------------------------------
+# Homepage Route: Display all posts (with optional search)
+# ----------------------------------------
+
 @bp.route('/')
 def home():
     db = get_db()
     search_query = request.args.get('search', '').strip()
 
+    # If search is active, filter posts by title or content
     if search_query:
         posts = db.execute("""
             SELECT p.id, p.title, p.content, p.pub_date,
@@ -22,6 +30,7 @@ def home():
             ORDER BY p.pub_date DESC
         """, (f'%{search_query}%', f'%{search_query}%')).fetchall()
     else:
+        # Default: Show all posts
         posts = db.execute("""
             SELECT p.id, p.title, p.content, p.pub_date,
                    GROUP_CONCAT(t.name) AS tags
@@ -35,11 +44,15 @@ def home():
     return render_template('home.html', posts=posts, search_query=search_query)
 
 
-# full blog post view 
+# ----------------------------------------
+# Post Detail Route: View a post and add comments
+# ----------------------------------------
+
 @bp.route('/post/<int:post_id>', methods=['GET', 'POST'])
 def post_detail(post_id):
     db = get_db()
 
+    # Fetch post details
     post = db.execute("""
         SELECT p.id, p.title, p.content, p.pub_date,
                GROUP_CONCAT(t.name) AS tags
@@ -53,6 +66,7 @@ def post_detail(post_id):
     if not post:
         return "Post not found", 404
 
+    # Handle comment submission
     if request.method == 'POST':
         title = request.form['title'].strip()
         content = request.form['content'].strip()
@@ -68,6 +82,7 @@ def post_detail(post_id):
             flash("Comment added!", "success")
             return redirect(url_for('main.post_detail', post_id=post_id))
 
+    # Fetch comments for the post
     comments = db.execute("""
         SELECT id, title, content, pub_date
         FROM comments
@@ -78,7 +93,10 @@ def post_detail(post_id):
     return render_template('post_detail.html', post=post, comments=comments)
 
 
-# Tag page
+# ----------------------------------------
+# Tag Page: Show posts with a specific tag
+# ----------------------------------------
+
 @bp.route('/tags/<string:tag_name>')
 def tag_page(tag_name):
     db = get_db()
@@ -95,7 +113,11 @@ def tag_page(tag_name):
 
     return render_template('tag.html', posts=posts, tag_name=tag_name)
 
-# Create a new post
+
+# ----------------------------------------
+# Create Post: Admin-only form to add a new post
+# ----------------------------------------
+
 @bp.route('/create', methods=['GET', 'POST'])
 def create_post():
     db = get_db()
@@ -108,13 +130,14 @@ def create_post():
         if not title or not content:
             flash("Title and content are required.", "error")
         else:
+            # Insert post
             db.execute(
                 "INSERT INTO posts (title, content, pub_date) VALUES (?, ?, DATE('now'))",
                 (title, content)
             )
             post_id = db.execute("SELECT last_insert_rowid()").fetchone()[0]
 
-            # Handle tags
+            # Insert tags
             tag_names = [t.strip() for t in tags_input.split(',') if t.strip()]
             for name in tag_names:
                 db.execute("INSERT OR IGNORE INTO tags (name) VALUES (?)", (name,))
@@ -127,12 +150,16 @@ def create_post():
 
     return render_template('create_post.html')
 
-# Edit a post
+
+# ----------------------------------------
+# Edit Post: Update an existing post and its tags
+# ----------------------------------------
+
 @bp.route('/edit/<int:post_id>', methods=['GET', 'POST'])
 def edit_post(post_id):
     db = get_db()
 
-    # Get post data
+    # Fetch post
     post = db.execute("""
         SELECT p.id, p.title, p.content,
                GROUP_CONCAT(t.name) AS tags
@@ -173,7 +200,11 @@ def edit_post(post_id):
 
     return render_template('edit_post.html', post=post)
 
-# Delete a post
+
+# ----------------------------------------
+# Delete Post: Admin-only, removes a post and its related data
+# ----------------------------------------
+
 @bp.route('/delete/<int:post_id>', methods=['POST'])
 def delete_post(post_id):
     db = get_db()
@@ -192,7 +223,11 @@ def delete_post(post_id):
     flash("Post deleted.", "success")
     return redirect(url_for('main.home'))
 
-# Delete a comment
+
+# ----------------------------------------
+# Delete Comment: Removes a specific comment
+# ----------------------------------------
+
 @bp.route('/delete-comment/<int:comment_id>', methods=['POST'])
 def delete_comment(comment_id):
     db = get_db()
@@ -207,13 +242,20 @@ def delete_comment(comment_id):
     flash("Comment deleted.", "success")
     return redirect(url_for('main.post_detail', post_id=comment['post_id']))
 
-# 404 error page
+
+# ----------------------------------------
+# Custom 404 Error Page
+# ----------------------------------------
+
 @bp.app_errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
 
 
-# Login
+# ----------------------------------------
+# User Login and Logout
+# ----------------------------------------
+
 @bp.route('/login', methods=['GET', 'POST'])
 def login():
     db = get_db()
