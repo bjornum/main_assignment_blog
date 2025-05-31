@@ -1,5 +1,15 @@
-{% extends "base.html" %} {% block title %}Login{% endblock %} {% block content
-%}
+<!-- Inherit the shared layout and styles from base.html -->
+{% extends "base.html" %}
+
+<!-- Set the page title shown in the browser tab -->
+{% block title %}Login{% endblock %}
+
+<!-- Main page content: blog listing and search -->
+{% block content %}
+
+<!-- Login form for user authentication
+  - User can enter username and password 
+-->
 <h2>Login</h2>
 <form method="post">
   <label for="username">Username:</label><br />
