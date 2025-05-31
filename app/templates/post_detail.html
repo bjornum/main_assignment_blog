@@ -11,6 +11,11 @@ block content %}
   <h2>{{ post['title'] }}</h2>
 
   <small>Published: {{ post['pub_date'] }}</small>
+
+  {% if post['description'] %}
+  <p><em>{{ post['description'] }}</em></p>
+  {% endif %}
+
   <p>{{ post['content'] }}</p>
 
   {% if post['tags'] %}

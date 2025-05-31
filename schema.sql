@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE posts (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
+    description TEXT,
     content TEXT NOT NULL,
     pub_date TEXT NOT NULL
 );
