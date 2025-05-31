@@ -132,6 +132,7 @@ input[type="submit"]:hover {
    Search Bar Styling
 ============================ */
 
+/* Search wrapper positions icon and input together */
 .search-wrapper {
   position: relative;
   display: inline-block;
@@ -143,8 +144,9 @@ input[type="submit"]:hover {
   margin-bottom: 1.5rem;
 }
 
+/* Search input with left padding for icon */
 .search-input {
-  padding: 8px 12px 8px 32px;
+  padding-left: 40px !important;
   width: 300px;
   max-width: 100%;
   border: 1px solid #ccc;
@@ -160,10 +162,11 @@ input[type="submit"]:hover {
   outline: none;
 }
 
+/* Position the search icon inside the input area */
 .search-icon {
   position: absolute;
   left: 10px;
-  top: 50%;
+  top: 38%;
   transform: translateY(-50%);
   font-size: 1rem;
   color: #888;
@@ -239,4 +242,29 @@ input[type="submit"]:hover {
   font-size: 0.9rem;
   color: #555;
   margin-top: 0.5rem;
+}
+
+/* Form input fields */
+input[type="text"],
+textarea,
+input[type="password"],
+input[type="email"] {
+  width: 100%;
+  max-width: 400px;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+input[type="password"]:focus,
+input[type="email"]:focus {
+  border-color: #007bff;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.4);
+  outline: none;
 }
