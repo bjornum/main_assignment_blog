@@ -30,7 +30,30 @@ Admin can:
 
 ### 1. Clone the repository
 
+Go to where you wish to place this repo, and clone it there.
+
 ```
-git clone <your-repo-url>
-cd <your-project-folder>
+git clone https://github.com/bjornum/main_assignment_blog.git
+```
+
+### 2. Create and activate a virtual environment
+
+First create the virtual environment - the venv
+
+```
+python -m venv venv
+```
+
+Then activate the virtual environment
+
+On Windows
+
+```
+venv\Scripts\activate
+```
+
+On macOS/Linux
+
+```
+source venv/bin/activate
 ```
